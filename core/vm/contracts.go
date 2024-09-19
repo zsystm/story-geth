@@ -165,7 +165,7 @@ var PrecompiledContractsNostoi = map[common.Address]PrecompiledContract{
 	common.BytesToAddress([]byte{0x11}):       &bls12381Pairing{},
 	common.BytesToAddress([]byte{0x12}):       &bls12381MapG1{},
 	common.BytesToAddress([]byte{0x13}):       &bls12381MapG2{},
-	common.BytesToAddress([]byte{0x1a}):       &ipGraph{},
+	common.BytesToAddress([]byte{0x1a}):       &ipGraphDynamicGas{},   // redirect 0x1a to ipGraphDynamicGas
 	common.BytesToAddress([]byte{0x1b}):       &ipGraphWithPolicyKind{},
 	common.BytesToAddress([]byte{0x01, 0x00}): &p256Verify{},
 }
