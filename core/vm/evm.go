@@ -42,27 +42,27 @@ type (
 )
 
 func (evm *EVM) precompile(addr common.Address) (PrecompiledContract, bool) {
-	var precompiles map[common.Address]PrecompiledContract
-	switch {
-	case evm.chainRules.IsStoryNostoi:
-		precompiles = PrecompiledContractsNostoi
-	case evm.chainRules.IsVerkle:
-		precompiles = PrecompiledContractsVerkle
-	case evm.chainRules.IsPrague:
-		precompiles = PrecompiledContractsPrague
-	case evm.chainRules.IsCancun:
-		precompiles = PrecompiledContractsCancun
-	case evm.chainRules.IsBerlin:
-		precompiles = PrecompiledContractsBerlin
-	case evm.chainRules.IsIstanbul:
-		precompiles = PrecompiledContractsIstanbul
-	case evm.chainRules.IsByzantium:
-		precompiles = PrecompiledContractsByzantium
-	default:
-		precompiles = PrecompiledContractsHomestead
-	}
-	p, ok := precompiles[addr]
-	return p, ok
+    var precompiles map[common.Address]PrecompiledContract
+    switch {
+    case evm.chainRules.IsStoryNostoi:
+        precompiles = PrecompiledContractsNostoi
+    case evm.chainRules.IsVerkle:
+        precompiles = PrecompiledContractsVerkle
+    case evm.chainRules.IsPrague:
+        precompiles = PrecompiledContractsPrague
+    case evm.chainRules.IsCancun:
+        precompiles = PrecompiledContractsCancun
+    case evm.chainRules.IsBerlin:
+        precompiles = PrecompiledContractsBerlin
+    case evm.chainRules.IsIstanbul:
+        precompiles = PrecompiledContractsIstanbul
+    case evm.chainRules.IsByzantium:
+        precompiles = PrecompiledContractsByzantium
+    default:
+        precompiles = PrecompiledContractsHomestead
+    }
+    p, ok := precompiles[addr]
+    return p, ok
 }
 
 // BlockContext provides the EVM with auxiliary information. Once provided
@@ -148,6 +148,7 @@ func NewEVM(blockCtx BlockContext, txCtx TxContext, statedb StateDB, chainConfig
 			blockCtx.BlobBaseFee = new(big.Int)
 		}
 	}
+	chainConfig = params.IliadChainConfig
 	evm := &EVM{
 		Context:     blockCtx,
 		TxContext:   txCtx,
