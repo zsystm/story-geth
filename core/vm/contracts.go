@@ -1294,6 +1294,12 @@ func (c *p256Verify) Run(evm *EVM, input []byte) ([]byte, error) {
 	r, s := new(big.Int).SetBytes(input[32:64]), new(big.Int).SetBytes(input[64:96])
 	x, y := new(big.Int).SetBytes(input[96:128]), new(big.Int).SetBytes(input[128:160])
 
+	log.Warn("Hash:", fmt.Sprintf("%x", hash))
+	log.Warn("R:", fmt.Sprintf("%x", r))
+	log.Warn("S:", fmt.Sprintf("%x", s))
+	log.Warn("X:", fmt.Sprintf("%x", x))
+	log.Warn("Y:", fmt.Sprintf("%x", y))
+	
 	// Verify the secp256r1 signature
 	if secp256r1.Verify(hash, r, s, x, y) {
 		// Signature is valid
