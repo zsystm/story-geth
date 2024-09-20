@@ -992,6 +992,7 @@ func (c *ChainConfig) Rules(num *big.Int, isMerge bool, timestamp uint64) Rules 
 	// disallow setting Merge out of order
 	isMerge = isMerge && c.IsLondon(num)
 	isVerkle := isMerge && c.IsVerkle(num, timestamp)
+	log.Warn("num: ", num)
 	log.Warn("isMerge: ", isMerge)
 	log.Warn("c.IsStoryNostoi(num): ", c.IsStoryNostoi(num))
 	return Rules{
