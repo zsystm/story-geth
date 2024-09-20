@@ -42,27 +42,36 @@ type (
 )
 
 func (evm *EVM) precompile(addr common.Address) (PrecompiledContract, bool) {
-	var precompiles map[common.Address]PrecompiledContract
-	switch {
-	case evm.chainRules.IsStoryNostoi:
-		precompiles = PrecompiledContractsNostoi
-	case evm.chainRules.IsVerkle:
-		precompiles = PrecompiledContractsVerkle
-	case evm.chainRules.IsPrague:
-		precompiles = PrecompiledContractsPrague
-	case evm.chainRules.IsCancun:
-		precompiles = PrecompiledContractsCancun
-	case evm.chainRules.IsBerlin:
-		precompiles = PrecompiledContractsBerlin
-	case evm.chainRules.IsIstanbul:
-		precompiles = PrecompiledContractsIstanbul
-	case evm.chainRules.IsByzantium:
-		precompiles = PrecompiledContractsByzantium
-	default:
-		precompiles = PrecompiledContractsHomestead
-	}
-	p, ok := precompiles[addr]
-	return p, ok
+    var precompiles map[common.Address]PrecompiledContract
+    switch {
+    case evm.chainRules.IsStoryNostoi:
+        log.Warn("WARN: Using PrecompiledContractsNostoi")
+        precompiles = PrecompiledContractsNostoi
+    case evm.chainRules.IsVerkle:
+        log.Warn("WARN: Using PrecompiledContractsVerkle")
+        precompiles = PrecompiledContractsVerkle
+    case evm.chainRules.IsPrague:
+        log.Warn("WARN: Using PrecompiledContractsPrague")
+        precompiles = PrecompiledContractsPrague
+    case evm.chainRules.IsCancun:
+        log.Warn("WARN: Using PrecompiledContractsCancun")
+        precompiles = PrecompiledContractsCancun
+    case evm.chainRules.IsBerlin:
+        log.Warn("WARN: Using PrecompiledContractsBerlin")
+        precompiles = PrecompiledContractsBerlin
+    case evm.chainRules.IsIstanbul:
+        log.Warn("WARN: Using PrecompiledContractsIstanbul")
+        precompiles = PrecompiledContractsIstanbul
+    case evm.chainRules.IsByzantium:
+        log.Warn("WARN: Using PrecompiledContractsByzantium")
+        precompiles = PrecompiledContractsByzantium
+    default:
+        log.Warn("WARN: Using PrecompiledContractsHomestead (default)")
+        precompiles = PrecompiledContractsHomestead
+    }
+    p, ok := precompiles[addr]
+    log.Warn("INFO: Precompiled contract for address %s: %v, found: %v\n", addr.Hex(), p, ok)
+    return p, ok
 }
 
 // BlockContext provides the EVM with auxiliary information. Once provided

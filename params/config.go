@@ -22,6 +22,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/params/forks"
+	"github.com/ethereum/go-ethereum/log"
 )
 
 // Genesis hashes to enforce below configs on.
@@ -991,6 +992,8 @@ func (c *ChainConfig) Rules(num *big.Int, isMerge bool, timestamp uint64) Rules 
 	// disallow setting Merge out of order
 	isMerge = isMerge && c.IsLondon(num)
 	isVerkle := isMerge && c.IsVerkle(num, timestamp)
+	log.Warn("isMerge: ", isMerge)
+	log.Warn("c.IsStoryNostoi(num): ", c.IsStoryNostoi(num))
 	return Rules{
 		ChainID:          new(big.Int).Set(chainID),
 		IsHomestead:      c.IsHomestead(num),
