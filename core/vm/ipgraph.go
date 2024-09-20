@@ -36,6 +36,7 @@ var (
 type ipGraph struct{}
 
 func (c *ipGraph) RequiredGas(input []byte) uint64 {
+	log.Warn("RequiredGas OLD GAS 1")
 	return uint64(1)
 }
 
@@ -388,6 +389,7 @@ type ipGraphDynamicGas struct {
 }
 
 func (c *ipGraphDynamicGas) RequiredGas(input []byte) uint64 {
+	log.Warn("RequiredGas NEW gas dynamic")
 	if len(input) < 4 {
 		return intrinsicGas
 	}

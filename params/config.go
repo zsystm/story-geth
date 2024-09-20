@@ -159,7 +159,7 @@ var (
 		TerminalTotalDifficultyPassed: true,
 		ShanghaiTime:                  newUint64(0),
 		CancunTime:                    newUint64(0),
-		NostoiBlock:                   big.NewInt(928975), // Estimated timestamp for Nostoi fork (TO CHANGE)
+		NostoiBlock:                   big.NewInt(280000), // Estimated timestamp for Nostoi fork (TO CHANGE)
 	}
 
 	LocalChainConfig = &ChainConfig{
@@ -641,7 +641,10 @@ func (c *ChainConfig) IsEIP4762(num *big.Int, time uint64) bool {
 
 // IsVerkle returns whether time is either equal to the Nostoi fork time or greater.
 func (c *ChainConfig) IsStoryNostoi(num *big.Int) bool {
-	return isBlockForked(c.NostoiBlock, num)
+	log.Warn("c.NostoiBlock: ", c.NostoiBlock)
+	log.Warn("num: ", num)
+	log.Warn("ChainID: ", c.ChainID)
+	return isBlockForked(big.NewInt(280000), num)
 }
 
 // CheckCompatible checks whether scheduled fork transitions have been imported
