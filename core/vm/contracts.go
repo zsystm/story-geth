@@ -1278,11 +1278,13 @@ func (c *p256Verify) RequiredGas(input []byte) uint64 {
 
 // Run executes the precompiled contract with the given input and EVM context, returning the output and the used gas
 func (c *p256Verify) Run(evm *EVM, input []byte) ([]byte, error) {
+	log.Warn("p256Verify RUN ==============================")
 	// Required input length is 160 bytes
 	const p256VerifyInputLength = 160
 
 	// Check the input length
 	if len(input) != p256VerifyInputLength {
+		log.Warn("Input length is invalid")
 		// Input length is invalid
 		return nil, nil
 	}
@@ -1295,9 +1297,11 @@ func (c *p256Verify) Run(evm *EVM, input []byte) ([]byte, error) {
 	// Verify the secp256r1 signature
 	if secp256r1.Verify(hash, r, s, x, y) {
 		// Signature is valid
+		log.Warn("common.LeftPadBytes([]byte{1}, 32), nil", common.LeftPadBytes([]byte{1}, 32))
 		return common.LeftPadBytes([]byte{1}, 32), nil
 	} else {
 		// Signature is invalid
+		log.Warn("Signature is invalid")
 		return nil, nil
 	}
 }

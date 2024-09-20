@@ -159,7 +159,7 @@ var (
 		TerminalTotalDifficultyPassed: true,
 		ShanghaiTime:                  newUint64(0),
 		CancunTime:                    newUint64(0),
-		NostoiBlock:                   big.NewInt(280000), // Estimated timestamp for Nostoi fork (TO CHANGE)
+		NostoiBlock:                   big.NewInt(305000), // Estimated timestamp for Nostoi fork (TO CHANGE)
 	}
 
 	LocalChainConfig = &ChainConfig{
@@ -644,7 +644,7 @@ func (c *ChainConfig) IsStoryNostoi(num *big.Int) bool {
 	log.Warn("c.NostoiBlock: ", c.NostoiBlock)
 	log.Warn("num: ", num)
 	log.Warn("ChainID: ", c.ChainID)
-	return isBlockForked(big.NewInt(280000), num)
+	return isBlockForked(big.NewInt(305000), num)
 }
 
 // CheckCompatible checks whether scheduled fork transitions have been imported
