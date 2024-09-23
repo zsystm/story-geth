@@ -2204,6 +2204,11 @@ func MakeChain(ctx *cli.Context, stack *node.Node, readonly bool) (*core.BlockCh
 	if err != nil {
 		Fatalf("%v", err)
 	}
+	
+	log.Warn("BEFOR config: ", config)
+	config = params.IliadChainConfig
+	log.Warn("AFTER config: ", config)
+
 	engine, err := ethconfig.CreateConsensusEngine(config, chainDb)
 	if err != nil {
 		Fatalf("%v", err)
