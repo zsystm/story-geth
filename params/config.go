@@ -21,8 +21,8 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/params/forks"
 	"github.com/ethereum/go-ethereum/log"
+	"github.com/ethereum/go-ethereum/params/forks"
 )
 
 // Genesis hashes to enforce below configs on.
@@ -142,7 +142,7 @@ var (
 	}
 
 	IliadChainConfig = &ChainConfig{
-		ChainID:                       big.NewInt(1513),
+		ChainID:                       big.NewInt(1512),
 		HomesteadBlock:                big.NewInt(0),
 		EIP150Block:                   big.NewInt(0),
 		EIP155Block:                   big.NewInt(0),
@@ -159,7 +159,7 @@ var (
 		TerminalTotalDifficultyPassed: true,
 		ShanghaiTime:                  newUint64(0),
 		CancunTime:                    newUint64(0),
-		NostoiBlock:                   big.NewInt(305000), // Estimated timestamp for Nostoi fork (TO CHANGE)
+		NostoiBlock:                   big.NewInt(30), // Estimated timestamp for Nostoi fork (TO CHANGE)
 	}
 
 	LocalChainConfig = &ChainConfig{
@@ -644,7 +644,7 @@ func (c *ChainConfig) IsStoryNostoi(num *big.Int) bool {
 	log.Warn("c.NostoiBlock: ", c.NostoiBlock)
 	log.Warn("num: ", num)
 	log.Warn("ChainID: ", c.ChainID)
-	return isBlockForked(big.NewInt(305000), num)
+	return isBlockForked(c.NostoiBlock, num)
 }
 
 // CheckCompatible checks whether scheduled fork transitions have been imported
