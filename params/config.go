@@ -644,7 +644,7 @@ func (c *ChainConfig) IsStoryNostoi(num *big.Int) bool {
 	log.Warn("c.NostoiBlock: ", c.NostoiBlock)
 	log.Warn("num: ", num)
 	log.Warn("ChainID: ", c.ChainID)
-	return isBlockForked(big.NewInt(305000), num)
+	return isBlockForked(c.NostoiBlock, num)
 }
 
 // CheckCompatible checks whether scheduled fork transitions have been imported
