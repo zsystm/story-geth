@@ -142,10 +142,14 @@ func New(stack *node.Node, config *ethconfig.Config) (*Ethereum, error) {
 	if err != nil {
 		return nil, err
 	}
+	log.Warn("BEFORE chainConfig:", chainConfig)
+	chainConfig = params.IliadChainConfig
 	engine, err := ethconfig.CreateConsensusEngine(chainConfig, chainDb)
 	if err != nil {
 		return nil, err
 	}
+	log.Warn("AFTER chainConfig:", chainConfig)
+
 	networkID := config.NetworkId
 	if networkID == 0 {
 		networkID = chainConfig.ChainID.Uint64()
