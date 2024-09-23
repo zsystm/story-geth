@@ -42,15 +42,18 @@ type (
 )
 
 func (evm *EVM) precompile(addr common.Address) (PrecompiledContract, bool) {
+	log.Warn("chain config is using: ", evm.chainConfig)
 	var precompiles map[common.Address]PrecompiledContract
 	switch {
 	case evm.chainRules.IsStoryNostoi:
+		log.Warn("chain config is using Nostoi")
 		precompiles = PrecompiledContractsNostoi
 	case evm.chainRules.IsVerkle:
 		precompiles = PrecompiledContractsVerkle
 	case evm.chainRules.IsPrague:
 		precompiles = PrecompiledContractsPrague
 	case evm.chainRules.IsCancun:
+		log.Warn("chain config is using Cancun")
 		precompiles = PrecompiledContractsCancun
 	case evm.chainRules.IsBerlin:
 		precompiles = PrecompiledContractsBerlin

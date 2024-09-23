@@ -141,7 +141,7 @@ var (
 	}
 
 	IliadChainConfig = &ChainConfig{
-		ChainID:                       big.NewInt(1513),
+		ChainID:                       big.NewInt(1512),
 		HomesteadBlock:                big.NewInt(0),
 		EIP150Block:                   big.NewInt(0),
 		EIP155Block:                   big.NewInt(0),
