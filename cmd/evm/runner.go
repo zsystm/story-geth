@@ -37,6 +37,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/core/vm/runtime"
 	"github.com/ethereum/go-ethereum/eth/tracers/logger"
+	"github.com/ethereum/go-ethereum/log"
 	"github.com/ethereum/go-ethereum/internal/flags"
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/ethereum/go-ethereum/triedb"
@@ -157,7 +158,9 @@ func runCmd(ctx *cli.Context) error {
 	genesis := genesisConfig.MustCommit(db, triedb)
 	sdb := state.NewDatabaseWithNodeDB(db, triedb)
 	statedb, _ = state.New(genesis.Root(), sdb, nil)
-	chainConfig = genesisConfig.Config
+	// chainConfig = genesisConfig.Config
+	log.Warn("chainConfig = params.IliadChainConfig: ", params.IliadChainConfig)
+	chainConfig = params.IliadChainConfig
 
 	if ctx.String(SenderFlag.Name) != "" {
 		sender = common.HexToAddress(ctx.String(SenderFlag.Name))
@@ -230,7 +233,9 @@ func runCmd(ctx *cli.Context) error {
 	}
 
 	if chainConfig != nil {
-		runtimeConfig.ChainConfig = chainConfig
+		// runtimeConfig.ChainConfig = chainConfig
+		log.Warn("runtimeConfig.ChainConfig = params.IliadChainConfig: ", params.IliadChainConfig)
+		runtimeConfig.ChainConfig = params.IliadChainConfig
 	} else {
 		runtimeConfig.ChainConfig = params.AllEthashProtocolChanges
 	}
