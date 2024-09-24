@@ -32,6 +32,7 @@ var (
 	GoerliGenesisHash  = common.HexToHash("0xbf7e331f7f7c1dd2e05159666b3bf8bc7a8a3a9eb1d518969eab529dd9b88c1a")
 	IliadGenesisHash   = common.HexToHash("0xf688549151cee34b707abd49c32c019aefb766d701488dd0c668601a91a67978")
 	LocalGenesisHash   = common.HexToHash("0xc070ebc5e40309e00af74260326aaafe320bee14bf131a4852f73b089b592123")
+	HarvestGenesisHash = common.HexToHash("0x0395c5bbda257c64f0f662347f6e50e6649784274c693687b67021f6bb735e67")
 )
 
 func newUint64(val uint64) *uint64 { return &val }
@@ -162,6 +163,26 @@ var (
 
 	LocalChainConfig = &ChainConfig{
 		ChainID:                       big.NewInt(1511),
+		HomesteadBlock:                big.NewInt(0),
+		EIP150Block:                   big.NewInt(0),
+		EIP155Block:                   big.NewInt(0),
+		EIP158Block:                   big.NewInt(0),
+		ByzantiumBlock:                big.NewInt(0),
+		ConstantinopleBlock:           big.NewInt(0),
+		PetersburgBlock:               big.NewInt(0),
+		IstanbulBlock:                 big.NewInt(0),
+		BerlinBlock:                   big.NewInt(0),
+		LondonBlock:                   big.NewInt(0),
+		ArrowGlacierBlock:             big.NewInt(0),
+		GrayGlacierBlock:              big.NewInt(0),
+		TerminalTotalDifficulty:       big.NewInt(0),
+		TerminalTotalDifficultyPassed: true,
+		ShanghaiTime:                  newUint64(0),
+		CancunTime:                    newUint64(0),
+	}
+
+	HarvestChainConfig = &ChainConfig{
+		ChainID:                       big.NewInt(2513),
 		HomesteadBlock:                big.NewInt(0),
 		EIP150Block:                   big.NewInt(0),
 		EIP155Block:                   big.NewInt(0),
@@ -361,6 +382,7 @@ var NetworkNames = map[string]string{
 	HoleskyChainConfig.ChainID.String(): "holesky",
 	IliadChainConfig.ChainID.String():   "iliad",
 	LocalChainConfig.ChainID.String():   "local",
+	HarvestChainConfig.ChainID.String(): "harvest",
 }
 
 // ChainConfig is the core config which determines the blockchain settings.
