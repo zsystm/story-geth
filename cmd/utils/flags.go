@@ -35,6 +35,10 @@ import (
 	"strings"
 	"time"
 
+	pcsclite "github.com/gballet/go-libpcsclite"
+	gopsutil "github.com/shirou/gopsutil/mem"
+	"github.com/urfave/cli/v2"
+
 	"github.com/ethereum/go-ethereum/accounts"
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	bparams "github.com/ethereum/go-ethereum/beacon/params"
@@ -74,9 +78,6 @@ import (
 	"github.com/ethereum/go-ethereum/triedb"
 	"github.com/ethereum/go-ethereum/triedb/hashdb"
 	"github.com/ethereum/go-ethereum/triedb/pathdb"
-	pcsclite "github.com/gballet/go-libpcsclite"
-	gopsutil "github.com/shirou/gopsutil/mem"
-	"github.com/urfave/cli/v2"
 )
 
 // These are all the command line flags we support.
@@ -632,6 +633,11 @@ var (
 		Usage:    "local test network: pre-configured local proof-of-stake test network",
 		Category: flags.MiscCategory,
 	}
+	HarvestFlag = &cli.BoolFlag{
+		Name:     "harvest",
+		Usage:    "harvest test network: pre-configured local proof-of-stake test network",
+		Category: flags.MiscCategory,
+	}
 
 	// RPC settings
 	IPCDisabledFlag = &cli.BoolFlag{
@@ -984,6 +990,7 @@ var (
 		HoleskyFlag,
 		IliadFlag,
 		LocalFlag,
+		HarvestFlag,
 	}
 	// NetworkFlags is the flag group of all built-in supported networks.
 	NetworkFlags = append([]cli.Flag{MainnetFlag}, TestnetFlags...)
@@ -1018,6 +1025,9 @@ func MakeDataDir(ctx *cli.Context) string {
 		}
 		if ctx.Bool(LocalFlag.Name) {
 			return filepath.Join(path, "local")
+		}
+		if ctx.Bool(HarvestFlag.Name) {
+			return filepath.Join(path, "harvest")
 		}
 		return path
 	}
@@ -1085,6 +1095,8 @@ func setBootstrapNodes(ctx *cli.Context, cfg *p2p.Config) {
 			urls = params.IliadBootnodes
 		case ctx.Bool(LocalFlag.Name):
 			urls = params.LocalBootnodes
+		case ctx.Bool(HarvestFlag.Name):
+			urls = params.HarvestBootnodes
 		}
 	}
 	cfg.BootstrapNodes = mustParseBootnodes(urls)
@@ -1520,6 +1532,8 @@ func SetDataDir(ctx *cli.Context, cfg *node.Config) {
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "iliad")
 	case ctx.Bool(LocalFlag.Name) && cfg.DataDir == node.DefaultDataDir():
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "local")
+	case ctx.Bool(HarvestFlag.Name) && cfg.DataDir == node.DefaultDataDir():
+		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "harvest")
 	}
 }
 
@@ -1861,6 +1875,11 @@ func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *ethconfig.Config) {
 			cfg.NetworkId = 1511
 		}
 		cfg.Genesis = core.DefaultLocalGenesisBlock()
+	case ctx.Bool(HarvestFlag.Name):
+		if !ctx.IsSet(NetworkIdFlag.Name) {
+			cfg.NetworkId = 2513
+		}
+		cfg.Genesis = core.DefaultHarvestGenesisBlock()
 	case ctx.Bool(DeveloperFlag.Name):
 		if !ctx.IsSet(NetworkIdFlag.Name) {
 			cfg.NetworkId = 1337
@@ -2188,6 +2207,8 @@ func MakeGenesis(ctx *cli.Context) *core.Genesis {
 		genesis = core.DefaultIliadGenesisBlock()
 	case ctx.Bool(LocalFlag.Name):
 		genesis = core.DefaultLocalGenesisBlock()
+	case ctx.Bool(HarvestFlag.Name):
+		genesis = core.DefaultHarvestGenesisBlock()
 	case ctx.Bool(DeveloperFlag.Name):
 		Fatalf("Developer chains are ephemeral")
 	}

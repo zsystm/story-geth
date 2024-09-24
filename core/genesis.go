@@ -24,6 +24,8 @@ import (
 	"math/big"
 	"strings"
 
+	"github.com/holiman/uint256"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/common/math"
@@ -39,7 +41,6 @@ import (
 	"github.com/ethereum/go-ethereum/trie"
 	"github.com/ethereum/go-ethereum/triedb"
 	"github.com/ethereum/go-ethereum/triedb/pathdb"
-	"github.com/holiman/uint256"
 )
 
 //go:generate go run github.com/fjl/gencodec -type Genesis -field-override genesisSpecMarshaling -out gen_genesis.go
@@ -185,6 +186,7 @@ func flushAlloc(ga *types.GenesisAlloc, db ethdb.Database, triedb *triedb.Databa
 }
 
 func getGenesisState(db ethdb.Database, blockhash common.Hash) (alloc types.GenesisAlloc, err error) {
+	fmt.Println("genesis block hash is", blockhash)
 	blob := rawdb.ReadGenesisStateSpec(db, blockhash)
 	if len(blob) != 0 {
 		if err := alloc.UnmarshalJSON(blob); err != nil {
@@ -211,6 +213,8 @@ func getGenesisState(db ethdb.Database, blockhash common.Hash) (alloc types.Gene
 		genesis = DefaultHoleskyGenesisBlock()
 	case params.IliadGenesisHash:
 		genesis = DefaultIliadGenesisBlock()
+	case params.HarvestGenesisHash:
+		genesis = DefaultHarvestGenesisBlock()
 	}
 	if genesis != nil {
 		return genesis.Alloc, nil
@@ -420,6 +424,8 @@ func (g *Genesis) configOrDefault(ghash common.Hash) *params.ChainConfig {
 		return params.IliadChainConfig
 	case ghash == params.LocalGenesisHash:
 		return params.LocalChainConfig
+	case ghash == params.HarvestGenesisHash:
+		return params.HarvestChainConfig
 	default:
 		return params.AllEthashProtocolChanges
 	}
@@ -604,6 +610,18 @@ func DefaultLocalGenesisBlock() *Genesis {
 		Nonce:      0x42,
 		Timestamp:  0,
 		Alloc:      decodePrealloc(localAllocData),
+	}
+}
+
+// DefaultHarvestGenesisBlock returns the harvest network genesis block.
+func DefaultHarvestGenesisBlock() *Genesis {
+	return &Genesis{
+		Config:     params.HarvestChainConfig,
+		Difficulty: big.NewInt(0x20000),
+		GasLimit:   0x7A1200,
+		Nonce:      0x42,
+		Timestamp:  0,
+		Alloc:      decodePrealloc(harvestAllocData),
 	}
 }
 
